@@ -18,7 +18,7 @@ ENV JAVA_HOME=/opt/java/openjdk \
     PATH="/opt/java/openjdk/bin:$PATH" \
 	LD_PRELOAD=/usr/lib/libjemalloc.so.2
 	
-RUN echo 'Asia/Shanghai' >/etc/timezone \
+RUN echo 'Asia/Shanghai' >/etc/timezone && \
     mkdir /app && \
     addgroup -g 1000 java && \
     adduser -D -u 1000 -G java java && \
