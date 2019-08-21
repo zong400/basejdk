@@ -49,17 +49,6 @@ RUN set -eux; \
     rm -rf /var/cache/apk/*; \
     rm -rf /tmp/openjdk.tar.gz;
 
-RUN apk add --no-cache jemalloc tini \
-    && echo 'Asia/Shanghai' >/etc/timezone \
-    && mkdir /app \
-    && addgroup -g 1000 java \
-    && adduser -D -u 1000 -G java java \
-    && chown java:java /app
-	
-
 ENV JAVA_HOME=/opt/java/openjdk \
     PATH="/opt/java/openjdk/bin:$PATH" \
-    LD_PRELOAD=/usr/lib/libjemalloc.so.2
 
-WORKDIR /app
-USER java
