@@ -13,3 +13,5 @@ RUN apk add --no-cache --virtual .build-deps curl make gcc g++ libxslt \
     && rm -rf /tmp/jemalloc*
 
 RUN apk add -no-cache openjdk8 tini
+ENV JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk \
+    PATH=/usr/lib/jvm/java-1.8-openjdk/bin:$PATH
