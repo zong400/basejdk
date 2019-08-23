@@ -11,7 +11,20 @@ RUN apk add --no-cache --virtual .build-deps curl make gcc g++ libxslt \
     && rm -rf /var/cache/apk/* \
     && rm -rf /tmp/jemalloc*
 
-RUN apk add --no-cache openjdk8 tini
+ENV JAVA_VERSION jdk8u222-b10
 
-ENV JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk \
-    PATH=/usr/lib/jvm/java-1.8-openjdk/bin:$PATH
+RUN set -eux; \
+    apk add --virtual .fetch-deps curl; \
+    ESUM='37356281345b93feb4212e6267109b4409b55b06f107619dde4960e402bafa77'; \
+    BINARY_URL='https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u222-b10/OpenJDK8U-jdk_x64_linux_hotspot_8u222b10.tar.gz'; \
+    curl -LfsSo /tmp/openjdk.tar.gz ${BINARY_URL}; \
+    echo "${ESUM} */tmp/openjdk.tar.gz" | sha256sum -c -; \
+    mkdir -p /opt/java/openjdk; \
+    cd /opt/java/openjdk; \
+    tar -xf /tmp/openjdk.tar.gz --strip-components=1; \
+    apk del --purge .fetch-deps; \
+    rm -rf /var/cache/apk/*; \
+    rm -rf /tmp/openjdk.tar.gz;
+
+ENV JAVA_HOME=/opt/java/openjdk \
+    PATH="/opt/java/openjdk/bin:$PATH" \
