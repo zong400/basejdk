@@ -8,7 +8,6 @@ RUN apk add --no-cache --virtual .build-deps curl make gcc g++ libxslt \
     && ./configure \
     && make \
     && make install \
-    && apk del --purge .build-deps \
     && rm -rf /var/cache/apk/* \
     && rm -rf /tmp/jemalloc*
 
